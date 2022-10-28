@@ -1,6 +1,12 @@
+[TOC]
+
+
+
 ## 字符串
 
 [字符串基本操作](https://www.runoob.com/python/python-strings.html)
+
+------
 
 ## Third
 
@@ -102,6 +108,8 @@ len(names)
 print   # 5
 ~~~
 
+------
+
 ## Fourth
 
 #### 操作列表
@@ -181,6 +189,14 @@ dimesions = (200,50)
 #不可以修改元组 但给元组表量重新赋值是合法的
 ~~~
 
+##### 6.列表解析
+
+指定一个描述性的列表名 指定一个左方括号， 并定义一个表达式，用于生成你要存储到列表中的值。编写一个for循环，用于给表达式提供值，再加上右方括号。  
+
+**for 语句末尾没有冒号。**
+
+------
+
 ## Fifth
 
 ##### if语句
@@ -206,6 +222,8 @@ else:
 **or**可以检查多个条件 只要至少有一个条件满足就能通过整个测试 仅当都没通过时 **or**的表达式才为false
 
 * if语句中将列表名用在条件表达式中时，python将在列表至少包含一个元素时返回True，在列表为空的时候返回False 
+
+------
 
 ## Sixth
 
@@ -337,6 +355,8 @@ users = {
 
 <!--列表和字典的嵌套层级不应太多-->。
 
+------
+
 ## 7th
 
 #### function
@@ -405,4 +425,148 @@ def build_profile(first,last,**user_info):
 # 调用方式
 build_profile(' ',' ',test=' ')
 ~~~
+
+##### 模块
+
+所谓的模块 用于把代码块与主程序分离  使得程序的逻辑结构更加清晰
+
+* 将函数存储在被称为模块的独立文件中 再将模块导入到主程序中
+* 通过**improt** 语句导入
+
+导入步骤：
+
+1. 创建模块  即创造python文件
+2. 用import 语句导入要使用的模块
+
+导入的模块其中的所有函数都被复制到当前程序中
+
+~~~python
+import module_name # 导入整个模块
+from module_name import function_0, function_1, function_ # 导入特定函数
+# 可用as给函数指定别名
+from module_name import function_0 as fn
+# 用as给模块指定别名
+import module_name as mn 
+# 只是模块名字在这个程序中发生了变化 模块内的函数名称都没有变化
+
+# 导入模块中的所有函数(尽量不要用 容易造成不好的后果)
+from module_name import *
+
+~~~
+
+------
+
+## 8th_类
+
+####  1.方法 _init__()
+
+类中的函数称为方法
+
+方法_init__()为类中的构造函数 每次根据类创建新实例时，python都会自动运行它 
+
+* 在这个方法中 **self** 参数必不可少 还必须位于最前面 
+* 因为 Python调用这个__init__()方法来创建实例时，将自动传入实参self。每个与类相关联的方法 调用都自动传递实参self，**它是一个指向实例本身的引用**，让实例能够访问类中的属性和方法。
+* **以self为前缀的变量都可供类中的所有方法使用**，我们 还可以通过类的任何实例来访问这些变量。
+* self.name = name 获取存储在形参name中的值 并将 其存储到变量name中，然后该变量被关联到当前创建的实例。 这种通过实例访问的变量称为属性
+
+~~~python
+class ClassName(object): 
+ --snip--
+class_name = ClassName('willie',6)
+# 调用属性和调用方法都用句点表示法
+class_name.func   / class_name.name 
+
+# 可以创建多个实例
+~~~
+
+#### 2.在——init()_内指定定义属性
+
+在方法__init()_定义属性是可以的 这样这个属性无需提供初始值的形参
+
+~~~python
+def __init__(self, make, model, year): 
+ """初始化描述汽车的属性""" 
+ self.make = make 
+ self.model = model 
+ self.year = year
+ self.odometer_reading = 0 
+~~~
+
+#### 3. 修改属性的值
+
+* 直接通过实例修改
+
+* 通过方法修改属性值
+
+* ~~~python
+  def update_odometer(self, mileage): 
+   """将里程表读数设置为指定的值""" 
+   self.odometer_reading = mileage
+  ~~~
+
+#### 4.继承
+
+一个类继承另一个类时，它将自动获得另一个类的所有属性和方法；子类继承了其父类的所有属性和方法，同时还可以定义自己的属性和方法
+
+1. 子类的方法__init__()
+
+创建子类实例，首先需要给父类所有的属性赋值
+
+~~~~python
+class Car():
+ 
+class ElectricCar(Car):   # Car父类的名字 创建子类时父类一定要包含在当前文件中 且位于子类前面
+ """电动汽车的独特之处""" 
+ 
+def __init__(self, make, model, year): 
+ """初始化父类的属性""" 
+super().__init__(make, model, year) 
+ # super() 用于将父类和子类关联起来  调用父类的方法__init()__ 让子类实例包含父类的所有属性
+# 父类也称为超类
+# 子类可以调用父类中定义的方法 也可以自己定义属于自己的新属性和方法
+# 对于父类的方法 都可进行重写 子类只需定义一个与要重写的父类同名的方法即可 程序不会将这个方法考虑为父类的方法
+my_tesla = ElectricCar('tesla', 'model s', 2016) 
+print(my_tesla.get_descriptive_name())
+~~~~
+
+2. 将实例用作属性
+
+可以将类的一部分作为一个独立的类提取出来：**将一个大型的类拆分成多个协同工作的小类**
+
+```python
+ class Battery(): 
+ """一次模拟电动汽车电瓶的简单尝试""" 
+ 
+ def __init__(self, battery_size=70):
+    self.battery_size = battery_size 
+ def describe_battery(self): 
+ """打印一条描述电瓶容量的消息""" 
+ print("This car has a " + str(self.battery_size) + "-kWh battery.")
+    
+    
+class ElectricCar(Car): 
+ """电动汽车的独特之处""" 
+ def __init__(self, make, model, year): 
+ """ 
+ 初始化父类的属性，再初始化电动汽车特有的属性
+ """ 
+ super().__init__(make, model, year) 
+ self.battery = Battery()   # 创建一个Battery实例储存在该属性中 
+# 每当调用构造函数时 都会自动创建一个实例
+# 该属性可以调用实例定义的方法
+my_tesla = ElectricCar('tesla', 'model s', 2016)
+my_tesla.battery.describe_battery() 
+```
+
+#### 5.导入类
+
+导入类无异于导入模块 语法和工作机制都是一样的
+
+~~~python
+from class_name import class_1,class_2
+~~~
+
+python标准库是一组模板  可以使用标准库中的任何函数和类
+
+------
 
