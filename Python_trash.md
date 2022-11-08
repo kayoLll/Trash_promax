@@ -570,3 +570,78 @@ python标准库是一组模板  可以使用标准库中的任何函数和类
 
 ------
 
+## 文件与异常
+
+**/**  和   **//**  区别
+
+![image-20221031195750016](C:\Users\Azao\AppData\Roaming\Typora\typora-user-images\image-20221031195750016.png)
+
+#### 读取文件
+
+读取一个文件前提得打开文件
+
+~~~python
+with open('pi_digits.txt') as file_object: 
+ contents = file_object.read() 
+ print(contents) 
+    
+# 关键字with在不再需要访问文件后将其关闭。
+~~~
+
+**open('value'，'pattern')**  
+
+* 打开文件 接收参数为文件路径  **在 Windows系统中，在文件路径中使用反斜杠（\）而不是斜杠（/）** 返回一个表示文件的对象   
+*   **pattern** 接收一个实参   打开文件时，可指定读取模 式（'r'）、写入模式（'w'）、附加模式（'a'）或让你能够读取和写入文件的模式（'r+'）。如果 你省略了模式实参，Python将以默认的只读模式打开文件
+
+![image-20221107105842986](C:\Users\Azao\AppData\Roaming\Typora\typora-user-images\image-20221107105842986.png)
+
+* 如需逐行读取文件 可以使用for循环遍历  去除文件的空白可以用.rstrip()方法
+
+* 使用关键字with时，open()返回的文件对象只在with代码块内可用。  如在代码块外还需要使用该内容 则可以把该内容存储在一个列表内
+
+  ~~~python
+  line = file_object.readlines()
+  # 方法readlines()从文件中读取每一行 并将其存储在一个列表中
+  
+  ~~~
+
+* 读取文本文件时，Python将其中的所有文本都解读为字符串。如果你读取的是数字，并 要将其作为数值使用，就必须使用函数int()将其转换为整数，或使用函数float()将其转 换为浮点数。
+
+* 关闭文件用**close()**     //打开文件后一定要记得关闭
+
+#### 写文件
+
+**.write(" ")**
+
+将字符串写入文件中
+
+#### 读文件
+
+**.read()**
+
+~~~python
+content = f.read(5) #在文件f中读取5个字符
+content = f.readline() #读一行
+content = f.readlines() # 一次性读取整个文件并返回列表 每行一个字符串元素
+# read() 开头是定位在文件头部 每执行一次 向后移动指定字符数
+~~~
+
+#### 文件操作
+
+需要导入os模块
+
+~~~python
+import os
+os.rename("需要修改的文件名","新文件名")
+~~~
+
+~~~python
+import os
+os.remove("待删除的文件名")
+os.mkdir("文件夹名字")  #创建文件夹
+os.getcwd() #获取当前目录
+os.chdir("../") #改变默认目录
+os.listdir("./")#获取目录列表
+os.rmdir("文件夹名")  #删除文件夹
+~~~
+
